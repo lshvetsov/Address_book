@@ -1,5 +1,6 @@
-package ru.shvetsov.leonid.addressbook.dto;
+package ru.shvetsov.leonid.addressbook.api.v1.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import ru.shvetsov.leonid.addressbook.model.Address;
 import ru.shvetsov.leonid.addressbook.model.Contact;
@@ -11,6 +12,7 @@ import java.util.List;
 @Data
 public class PersonDto {
 
+    private String id;
     private String name;
     private String surname;
     private String patronymic;
