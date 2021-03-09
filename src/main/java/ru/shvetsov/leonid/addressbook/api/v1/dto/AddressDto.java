@@ -13,6 +13,7 @@ public class AddressDto extends BaseEntity {
     private String id;
     private AddressType type;
     private String country;
+    private String region;
     private String city;
     private String postCode;
     private String street;

@@ -5,6 +5,7 @@ import ru.shvetsov.leonid.addressbook.api.v1.dto.PersonDto;
 
 import java.util.List;
 
+
 public interface PersonService {
 
     PersonDto createPerson (PersonDto personDto);

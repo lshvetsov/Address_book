@@ -1,6 +1,8 @@
 package ru.shvetsov.leonid.addressbook.service.Impl;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.shvetsov.leonid.addressbook.api.v1.dto.ContactDto;
 import ru.shvetsov.leonid.addressbook.api.v1.dto.PersonDto;
@@ -19,11 +21,16 @@ import java.util.stream.Collectors;
 
 @Service
 @Data
+@AllArgsConstructor
 public class PersonBaseServiceImpl implements PersonService {
 
+    @Autowired
     PersonRepository personRepository;
+    @Autowired
     ContactRepository contactRepository;
+    @Autowired
     PersonMapper personMapper;
+    @Autowired
     ContactMapper contactMapper;
 
     @Override
@@ -74,7 +81,6 @@ public class PersonBaseServiceImpl implements PersonService {
         contactRepository.save(contact);
         return personRepository.findById(personId).stream()
                 .map(personMapper::personToPersonDto)
-                .findFirst()
-                .orElseThrow();
+                .findFirst().orElseThrow();
     }
 }

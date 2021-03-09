@@ -4,7 +4,7 @@ import org.mapstruct.Mapper;
 import ru.shvetsov.leonid.addressbook.api.v1.dto.ContactDto;
 import ru.shvetsov.leonid.addressbook.model.Contact;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface ContactMapper {
 
     ContactDto contactToContactDto (Contact contact);
