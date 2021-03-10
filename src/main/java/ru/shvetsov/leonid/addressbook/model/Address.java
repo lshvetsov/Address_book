@@ -3,6 +3,7 @@ package ru.shvetsov.leonid.addressbook.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 import ru.shvetsov.leonid.addressbook.utils.enums.AddressType;
 
 import javax.persistence.*;
@@ -11,7 +12,12 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Address extends BaseEntity {
+public class Address {
+
+    @Id
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @GeneratedValue(generator = "UUID")
+    private String id;
 
     @ManyToOne
     @JoinColumn(name = "person_id", nullable = false)

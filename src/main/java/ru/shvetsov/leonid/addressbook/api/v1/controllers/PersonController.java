@@ -1,4 +1,4 @@
-package ru.shvetsov.leonid.addressbook.api.v1.controllers.v1;
+package ru.shvetsov.leonid.addressbook.api.v1.controllers;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,7 @@ public class PersonController {
         return personService.createPerson(personDto);
     }
 
-    @GetMapping("/")
+    @GetMapping
     List<PersonDto> getAllPerson () {
         return personService.getAllPersons();
     }

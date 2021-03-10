@@ -12,18 +12,17 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.ArrayList;
 
-@Configuration
 @EnableSwagger2
+@Configuration
 public class SwaggerConfig {
 
     @Bean
     public Docket api(){
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("ru.shvetsov.leonid.addressbook.api.v1.controllers"))
                 .paths(PathSelectors.any())
                 .build()
-                .pathMapping("/")
                 .apiInfo(metaData());
     }
 

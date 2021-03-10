@@ -3,6 +3,7 @@ package ru.shvetsov.leonid.addressbook.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -11,7 +12,12 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ContactGroup extends BaseEntity {
+public class ContactGroup {
+
+    @Id
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @GeneratedValue(generator = "UUID")
+    private String id;
 
     private String name;
     @ManyToOne
