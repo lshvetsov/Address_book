@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.shvetsov.leonid.addressbook.api.v1.dto.ContactDto;
 import ru.shvetsov.leonid.addressbook.api.v1.dto.PersonDto;
+import ru.shvetsov.leonid.addressbook.exception.BusinessError;
+import ru.shvetsov.leonid.addressbook.exception.BusinessErrorInfo;
+import ru.shvetsov.leonid.addressbook.model.Address;
 import ru.shvetsov.leonid.addressbook.model.Contact;
 import ru.shvetsov.leonid.addressbook.model.Person;
 import ru.shvetsov.leonid.addressbook.repository.ContactGroupRepository;
@@ -35,8 +38,14 @@ public class PersonBaseServiceImpl implements PersonService {
 
     @Override
     public PersonDto createPerson(PersonDto personDto) {
-        Person resultPerson = personRepository.save(personMapper.personDtoToPerson(personDto));
-        return personMapper.personToPersonDto(resultPerson);
+        Person person = personMapper.personDtoToPerson(personDto);
+
+        if (checkDouble(person)) throw new BusinessError(BusinessErrorInfo.PERSON_ALREADY_CREATE);
+
+        person.getAddresses().forEach(x -> x.setPerson(person));
+        person.getContacts().forEach(x -> x.setPerson(person));
+
+        return personMapper.personToPersonDto(personRepository.save(person));
     }
 
     @Override
@@ -60,7 +69,7 @@ public class PersonBaseServiceImpl implements PersonService {
     }
 
     @Override
-    public List<PersonDto> findPersonbyNameAndSurname(String name, String surname) {
+    public List<PersonDto> findPersonByNameAndSurname(String name, String surname) {
         return personRepository.findByNameAndSurname(name, surname).stream()
                 .map(personMapper::personToPersonDto)
                 .collect(Collectors.toList());
@@ -68,7 +77,9 @@ public class PersonBaseServiceImpl implements PersonService {
 
     @Override
     public List<PersonDto> findPersonbyContact(String contactField) {
-        return personRepository.findByContactField(contactField).stream()
+        List<Contact> contacts = contactRepository.findContactsByContactField(contactField);
+        return contacts.stream()
+                .map(x -> personRepository.findByContactsContains(x))
                 .map(personMapper::personToPersonDto)
                 .collect(Collectors.toList());
     }
@@ -83,4 +94,10 @@ public class PersonBaseServiceImpl implements PersonService {
                 .map(personMapper::personToPersonDto)
                 .findFirst().orElseThrow();
     }
+
+    private boolean checkDouble (Person person) {
+        List<Person> currentPerson = personRepository.findByNameAndSurname(person.getName(), person.getSurname());
+        return !currentPerson.isEmpty();
+    }
+
 }

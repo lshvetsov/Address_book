@@ -13,7 +13,7 @@ public interface PersonService {
     List<PersonDto> getAllPersons ();
     void deletePerson (String id);
 
-    List<PersonDto> findPersonbyNameAndSurname(String name, String surname);
+    List<PersonDto> findPersonByNameAndSurname(String name, String surname);
     List<PersonDto> findPersonbyContact (String contactField);
 
     PersonDto addContact (ContactDto contactDto, String personId);

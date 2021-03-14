@@ -9,5 +9,5 @@ import java.util.Set;
 public class ContactGroupDto {
 
     private String name;
-    private Set<Person> participants;
+    private Set<PersonDto> participants;
 }
